@@ -1,0 +1,94 @@
+class Producto {
+    constructor(nombre, precio, cantidad) {
+      this.nombre = nombre;
+      this.precio = precio;
+      this.cantidad = cantidad;
+    }
+  }
+  
+  class CarritoDeCompras {
+    constructor() {
+      this.productos = [];
+    }
+  
+    agregarProducto(producto) {
+      let encontrado = false;
+      for (let i = 0; i < this.productos.length; i++) {
+        if (this.productos[i].nombre === producto.nombre) {
+          this.productos[i].cantidad += producto.cantidad;
+          encontrado = true;
+          console.log(`El producto ${producto.nombre} actualizado, su nueva cantidad: ${this.productos[i].cantidad}`);
+          break;
+        }
+      }
+      if (!encontrado) {
+        this.productos.push(producto);
+        console.log(`El producto ${producto.nombre} agregado al carrito`);
+      }
+    }
+  
+    eliminarProducto(nombre) {
+      let encontrado = false;
+      for (let i = 0; i < this.productos.length; i++) {
+        if (this.productos[i].nombre === nombre) {
+          this.productos.splice(i, 1);
+          encontrado = true;
+          console.log(`El producto ${nombre} fue eliminado del carrito`);
+          break;
+        }
+      }
+      if (!encontrado) {
+        console.log(`El producto ${nombre} no encontrado en el carrito`);
+      }
+    }
+  
+    modificarProducto(nombre, nuevaCantidad) {
+      let encontrado = false;
+      for (let i = 0; i < this.productos.length; i++) {
+        if (this.productos[i].nombre === nombre) {
+          this.productos[i].cantidad = nuevaCantidad;
+          encontrado = true;
+          console.log(`Cantidad del producto ${nombre} modificada a ${nuevaCantidad}.`);
+          break;
+        }
+      }
+      if (!encontrado) {
+        console.log(`Producto ${nombre} no encontrado en el carrito`);
+      }
+    }
+  
+    aplicarDescuento(nombre, porcentaje) {
+      let encontrado = false;
+      for (let i = 0; i < this.productos.length; i++) {
+        if (this.productos[i].nombre === nombre) {
+          this.productos[i].precio *= 1 - porcentaje / 100;
+          encontrado = true;
+          console.log(`Descuento del ${porcentaje}% aplicado al producto ${nombre}. Nuevo precio: ${this.productos[i].precio}Bs`);
+          break;
+        }
+      }
+      if (!encontrado) {
+        console.log(`Producto ${nombre} no encontrado en el carrito`);
+      }
+    }
+  
+    generarResumen() {
+      let total = 0;
+      for (let i = 0; i < this.productos.length; i++) {
+        total += this.productos[i].precio * this.productos[i].cantidad;
+      }
+      console.log(`Resumen de la compra: ${total}Bs`);
+      return `Resumen de la compra: ${total}Bs`;
+    }
+  }
+  
+  const carrito = new CarritoDeCompras();
+  carrito.agregarProducto(new Producto("Manzana", 10, 3));
+  carrito.agregarProducto(new Producto("Pan", 5, 2));
+  carrito.aplicarDescuento("Manzana", 50);
+  carrito.generarResumen();
+  carrito.modificarProducto("Pan", 1);
+  carrito.generarResumen();
+  carrito.eliminarProducto("Manzana");
+  carrito.generarResumen();
+  
